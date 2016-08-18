@@ -45,6 +45,8 @@ This will run RoundhousE in the preferred way for local development.
     2. Decide what is the next available sequence number.  For this is example it will be `0110`.
     3. Create a file named `0110 - Add Family_FK to the dbo.My_Table table.sql`
     4. Open the file in SSMS to add this code:
+    5. 
+
         ```sql
         ALTER TABLE dbo.My_Table
         ADD Family_FK int CONSTRAINT FK_dbo_My_Table_Family FOREIGN KEY(Family_FK) REFERENCES dbo.Family(Family_PK)
@@ -52,8 +54,10 @@ This will run RoundhousE in the preferred way for local development.
         UPDATE dbo.My_Table
         SET Family_FK = 1
         ```
+
     5. Open the `sprocs` folder and find the `dbo.My_Table_Insert.sql` and open in SSMS
         - It currently looks like this:
+
             ```sql
             ALTER PROCEDURE dbo.My_Table_Insert
                 @Name VARCHAR(50),
@@ -67,7 +71,9 @@ This will run RoundhousE in the preferred way for local development.
                 (@Name, @Code)
             END
             ```
+
         - We will edit it to have a Family_FK option:
+
             ```sql
             ALTER PROCEDURE dbo.My_Table_Insert
                 @Name VARCHAR(50),
@@ -82,8 +88,10 @@ This will run RoundhousE in the preferred way for local development.
                 (@Name, @Code, @Family_FK)
             END
             ```
+
     6. Find the `dbo.My_Table_Update.sql` and open in SSMS
         - It currently looks like this:
+
             ```sql
             ALTER PROCEDURE dbo.My_Table_Update
                 @My_Table_PK int,
@@ -96,7 +104,10 @@ This will run RoundhousE in the preferred way for local development.
                     Code = @Code
                 WHERE My_Table_PK = @My_Table_PK
             END
+            ```
+
         - We will edit it to have a Family_FK option:
+
             ```sql
             ALTER PROCEDURE dbo.My_Table_Update
                 @My_Table_PK int,
@@ -112,8 +123,10 @@ This will run RoundhousE in the preferred way for local development.
                 WHERE My_Table_PK = @My_Table_PK
             END
             ```
+
     7. Find the `dbo.My_Table_Get_By_Key.sql` and open in SSMS
         - It currently looks like this:
+
             ```sql
             ALTER PROCEDURE dbo.My_Table_Get_By_Key
                 @My_Table_PK int
@@ -124,7 +137,9 @@ This will run RoundhousE in the preferred way for local development.
                 WHERE My_Table_PK = @My_Table_PK
             END
             ```
+
         - We will edit it to have a Family_FK option:
+
             ```sql
             ALTER PROCEDURE dbo.My_Table_Get_By_Key
                 @My_Table_PK int
@@ -135,8 +150,10 @@ This will run RoundhousE in the preferred way for local development.
                 WHERE My_Table_PK = @My_Table_PK
             END
             ```
+
     8. Find the `dbo.My_Table_List.sql` and open in SSMS
         - It currently looks like this:
+
             ```sql
             ALTER PROCEDURE dbo.My_Table_List
             AS
@@ -145,7 +162,9 @@ This will run RoundhousE in the preferred way for local development.
                 FROM dbo.My_Table
             END
             ```
+
         - We will edit it to have a Family_FK option:
+
             ```sql
             ALTER PROCEDURE dbo.My_Table_List
             AS
@@ -154,6 +173,7 @@ This will run RoundhousE in the preferred way for local development.
                 FROM dbo.My_Table
             END
             ```
+
     9. Our feature is now implemented on the database we can run RoundhousE via the provided `.bat` file.
         - Our table now looks like this:
 
@@ -169,9 +189,11 @@ This will run RoundhousE in the preferred way for local development.
     10. We now need to commit our changes to the `ENTERPRISE` repository
         - Pull once more, this will give you an opportunity to merge your changes with the latest migration before commiting your work.
         - We can use a commit message like:
+
             ```
             Case 0000 - Add Family_FK to dbo.My_Table and related sprocs
             ```
+
         - We would then commit the change and push to Kiln so that others can access them.
 
 ***
