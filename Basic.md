@@ -6,7 +6,7 @@
 
 You could have either used SQL Server Management Studio to use the GUI Table Editor:
 
-![Example](Images\Basic_1.png)
+![Example](Images/Basic_1.PNG)
 
 or directly run a script to create against your target database:
 
@@ -58,7 +58,7 @@ This was done using SSMS by navigating to the database you wanted to a Stored Pr
 - Right Click on Stored Procedures
 - New -> Stored Procedure...
 
-![Example](Images\Basic_2.png)
+![Example](Images/Basic_2.PNG)
 
 This creates the template of the of file which the developer would edit and then run directly against their target server.
 
@@ -111,7 +111,7 @@ The second part is the true definition of the sproc.  This can be checked into t
 
 Navigating to the Stored Procedure definition in SSMS then Right Click -> Modify
 
-![Example](Images\Basic_3.png)
+![Example](Images/Basic_3.PNG)
 
 ### After
 
