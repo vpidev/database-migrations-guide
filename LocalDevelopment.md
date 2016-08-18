@@ -55,146 +55,146 @@ This will run RoundhousE in the preferred way for local development.
         SET Family_FK = 1
         ```
 
-    5. Open the `sprocs` folder and find the `dbo.My_Table_Insert.sql` and open in SSMS
-        - It currently looks like this:
+4. Open the `sprocs` folder and find the `dbo.My_Table_Insert.sql` and open in SSMS
+    - It currently looks like this:
 
-            ```sql
-            ALTER PROCEDURE dbo.My_Table_Insert
-                @Name VARCHAR(50),
-                @Code VARCHAR(50)
-            AS
-            BEGIN
-            SET NOCOUNT ON;
-                INSERT INTO dbo.My_Table
-                (Name, Code)
-                VALUES
-                (@Name, @Code)
-            END
-            ```
+        ```sql
+        ALTER PROCEDURE dbo.My_Table_Insert
+            @Name VARCHAR(50),
+            @Code VARCHAR(50)
+        AS
+        BEGIN
+        SET NOCOUNT ON;
+            INSERT INTO dbo.My_Table
+            (Name, Code)
+            VALUES
+            (@Name, @Code)
+        END
+        ```
 
-        - We will edit it to have a Family_FK option:
+    - We will edit it to have a Family_FK option:
 
-            ```sql
-            ALTER PROCEDURE dbo.My_Table_Insert
-                @Name VARCHAR(50),
-                @Code VARCHAR(50),
-                @Family_FK int
-            AS
-            BEGIN
-            SET NOCOUNT ON;
-                INSERT INTO dbo.My_Table
-                (Name, Code, Family_FK)
-                VALUES
-                (@Name, @Code, @Family_FK)
-            END
-            ```
+        ```sql
+        ALTER PROCEDURE dbo.My_Table_Insert
+            @Name VARCHAR(50),
+            @Code VARCHAR(50),
+            @Family_FK int
+        AS
+        BEGIN
+        SET NOCOUNT ON;
+            INSERT INTO dbo.My_Table
+            (Name, Code, Family_FK)
+            VALUES
+            (@Name, @Code, @Family_FK)
+        END
+        ```
 
-    6. Find the `dbo.My_Table_Update.sql` and open in SSMS
-        - It currently looks like this:
+5. Find the `dbo.My_Table_Update.sql` and open in SSMS
+    - It currently looks like this:
 
-            ```sql
-            ALTER PROCEDURE dbo.My_Table_Update
-                @My_Table_PK int,
-                @Name VARCHAR(50),
-                @Code VARCHAR(50)
-            AS
-            BEGIN
-                UPDATE dbo.My_Table
-                SET Name = @Name,
-                    Code = @Code
-                WHERE My_Table_PK = @My_Table_PK
-            END
-            ```
+        ```sql
+        ALTER PROCEDURE dbo.My_Table_Update
+            @My_Table_PK int,
+            @Name VARCHAR(50),
+            @Code VARCHAR(50)
+        AS
+        BEGIN
+            UPDATE dbo.My_Table
+            SET Name = @Name,
+                Code = @Code
+            WHERE My_Table_PK = @My_Table_PK
+        END
+        ```
 
-        - We will edit it to have a Family_FK option:
+    - We will edit it to have a Family_FK option:
 
-            ```sql
-            ALTER PROCEDURE dbo.My_Table_Update
-                @My_Table_PK int,
-                @Name VARCHAR(50),
-                @Code VARCHAR(50),
-                @Family_FK int
-            AS
-            BEGIN
-                UPDATE dbo.My_Table
-                SET Name = @Name,
-                    Code = @Code,
-                    Family_FK = @Family_FK
-                WHERE My_Table_PK = @My_Table_PK
-            END
-            ```
+        ```sql
+        ALTER PROCEDURE dbo.My_Table_Update
+            @My_Table_PK int,
+            @Name VARCHAR(50),
+            @Code VARCHAR(50),
+            @Family_FK int
+        AS
+        BEGIN
+            UPDATE dbo.My_Table
+            SET Name = @Name,
+                Code = @Code,
+                Family_FK = @Family_FK
+            WHERE My_Table_PK = @My_Table_PK
+        END
+        ```
 
-    7. Find the `dbo.My_Table_Get_By_Key.sql` and open in SSMS
-        - It currently looks like this:
+6. Find the `dbo.My_Table_Get_By_Key.sql` and open in SSMS
+    - It currently looks like this:
 
-            ```sql
-            ALTER PROCEDURE dbo.My_Table_Get_By_Key
-                @My_Table_PK int
-            AS
-            BEGIN
-                SELECT My_Table_PK, Name, Code
-                FROM dbo.My_Table
-                WHERE My_Table_PK = @My_Table_PK
-            END
-            ```
+        ```sql
+        ALTER PROCEDURE dbo.My_Table_Get_By_Key
+            @My_Table_PK int
+        AS
+        BEGIN
+            SELECT My_Table_PK, Name, Code
+            FROM dbo.My_Table
+            WHERE My_Table_PK = @My_Table_PK
+        END
+        ```
 
-        - We will edit it to have a Family_FK option:
+    - We will edit it to have a Family_FK option:
 
-            ```sql
-            ALTER PROCEDURE dbo.My_Table_Get_By_Key
-                @My_Table_PK int
-            AS
-            BEGIN
-                SELECT My_Table_PK, Name, Code, Family_FK
-                FROM dbo.My_Table
-                WHERE My_Table_PK = @My_Table_PK
-            END
-            ```
+        ```sql
+        ALTER PROCEDURE dbo.My_Table_Get_By_Key
+            @My_Table_PK int
+        AS
+        BEGIN
+            SELECT My_Table_PK, Name, Code, Family_FK
+            FROM dbo.My_Table
+            WHERE My_Table_PK = @My_Table_PK
+        END
+        ```
 
-    8. Find the `dbo.My_Table_List.sql` and open in SSMS
-        - It currently looks like this:
+7. Find the `dbo.My_Table_List.sql` and open in SSMS
+    - It currently looks like this:
 
-            ```sql
-            ALTER PROCEDURE dbo.My_Table_List
-            AS
-            BEGIN
-                SELECT My_Table_PK, Name, Code
-                FROM dbo.My_Table
-            END
-            ```
+        ```sql
+        ALTER PROCEDURE dbo.My_Table_List
+        AS
+        BEGIN
+            SELECT My_Table_PK, Name, Code
+            FROM dbo.My_Table
+        END
+        ```
 
-        - We will edit it to have a Family_FK option:
+    - We will edit it to have a Family_FK option:
 
-            ```sql
-            ALTER PROCEDURE dbo.My_Table_List
-            AS
-            BEGIN
-                SELECT My_Table_PK, Name, Code, Family_FK
-                FROM dbo.My_Table
-            END
-            ```
+        ```sql
+        ALTER PROCEDURE dbo.My_Table_List
+        AS
+        BEGIN
+            SELECT My_Table_PK, Name, Code, Family_FK
+            FROM dbo.My_Table
+        END
+        ```
 
-    9. Our feature is now implemented on the database we can run RoundhousE via the provided `.bat` file.
-        - Our table now looks like this:
+8. Our feature is now implemented on the database we can run RoundhousE via the provided `.bat` file.
+    - Our table now looks like this:
 
-                Column | Definition
-                --- | ---
-                My_Table_PK | INT IDENTITY(1,1) PRIMARY KEY
-                Name | VARCHAR(50)
-                Code | VARCHAR(50)
-                Family_FK | INT
-        
-        - And the sprocs that interact with it are updated
+            Column | Definition
+            --- | ---
+            My_Table_PK | INT IDENTITY(1,1) PRIMARY KEY
+            Name | VARCHAR(50)
+            Code | VARCHAR(50)
+            Family_FK | INT
+    
+    - And the sprocs that interact with it are updated
 
-    10. We now need to commit our changes to the `ENTERPRISE` repository
-        - Pull once more, this will give you an opportunity to merge your changes with the latest migration before commiting your work.
-        - We can use a commit message like:
+9. We now need to commit our changes to the `ENTERPRISE` repository
+    - Pull once more, this will give you an opportunity to merge your changes with the latest migration before commiting your work.
+    - We can use a commit message like:
 
-            ```
-            Case 0000 - Add Family_FK to dbo.My_Table and related sprocs
-            ```
+        ```
+        Case 0000 - Add Family_FK to dbo.My_Table and related sprocs
+        ```
 
-        - We would then commit the change and push to Kiln so that others can access them.
+    - We would then commit the change and push to Kiln so that others can access them.
 
 ***
 
