@@ -170,7 +170,9 @@ We can do this one of three ways.
 
 - Run from Windows Explorer
     1. Open the migration folder in Windows Explorer
+
         ![Quick access to Windows Explorer](Images/LocalDevelopment_4.png)
+
     2. Double click the `.bat` file to run RoundhousE.
 
 - Configure `.bat` files to start from within Visual Studio (one time configuration).
@@ -281,7 +283,7 @@ sprocs/SaM/SaM.Product_SKU_Detail_List.sql
 
 RoundhousE expects documents to be encoded as `UTF-8 with BOM` using Visual Studio 2015 in the prescribed way in [Development Workflow](#development-workflow) will ensure that documents created are in this encoding.
 If files aren't encoded into `UTF-8 with BOM` then RoundhousE has to guess what file encoding it going to run.
-RoundhousE was written in .NET and uses the .NET Encoding library to set encodings however without the bit order mark (BOM) it will guess and use the system default.  For a window's machine .NET guess that it is a Codepage 1252 encoded file.
+RoundhousE was written in .NET and uses the .NET Encoding library to set encodings however without the bit order mark (BOM) it will guess and use the system default.  For a window's machine .NET guess that it is a `Codepage 1252` encoded file.
 This will certain characters in our script to be read incorrectly and be applied incorrectly to our database.
 For example characters like `°` (Degree Sign) or `á` (a with acute accent) won't encode correctly and will apply the wrong character to the database.
 
