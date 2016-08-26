@@ -34,12 +34,14 @@ Changes made to the DDL (data definition language) or DML (data manipulation lan
 
 Once changes are made, version metadata is updated to record what changes were run, and what version the database schema is at.
 
-## Putting it into practice 
+## Put into practice 
 
 The Database Migration Tool that we use is called [RoundhousE](https://github.com/chucknorris/roundhouse).
 RoundhousE is a script based migration tool which will take a folder full of scripts and run them against a target database instance.
 RoundhousE was chosen because it allows us to setup a migration process on our existing databases, requires minimal configuration, and is built using dependencies we already require (.NET).
 Moving to database migrations using RoundhousE means that all future development needs to be added via the migrations or it won't be able won't be kept track of in source control.
+Using RoundhousE also will simply our deployment process letting, removing the pain of getting a list of scripts together to run against test and production servers.
+Smaller changesets allow us to deploy more frequently letting features and fixes get to other developers and end users quicker.
 
 ***
 

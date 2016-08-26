@@ -289,14 +289,17 @@ For example characters like `°` (Degree Sign) or `á` (a with acute accent) won
 
 ### Linked Servers
 
-Because RoundhousE is applying scripts to the database when it runs it connects to that machine.
-One of the quirks with this is that for our deployment it will fail to run scripts that use a linked server due to a delegation issue (double hop).
+When running RoundhousE it applies scripts to the a database.
+For local work this isn't an issue because you are apply it to your own machine.
+However when one machine targets another and runs RoundhousE there is an issue it runs into with Linked Servers; this is how our automation works.
+RoundhousE will fail to run scripts that use a linked server due to a delegation issue (double hop).
 Scripts that have a linked server call need to be applied outside of the migration.
+Let your dba know if you've added/updated sprocs that contain Linked Server calls so they can apply them to the needed locations.
 We still keep these sprocs in the given database migration repository, but they live in a different folder the `non_migration` folder contains a `sproc` folder which should contain sprocs that reference linked servers. 
 
 ### Migrations don't go backwards
 
-Application projects in source control have the option to rollback to a commit or choose a different version from another point in time.
+Application projects in source control are easy to choose any different version and run.
 Database Migration projects are different.
 It is generally bad practice and inefficient to rollback a database migration.
 This doesn't mean that you can't undo those changes though it just means that you have to make a new commit that reverts the functionality.
@@ -339,6 +342,27 @@ A migration should include at most a single `up` script to `create`, `alter`, or
 
 Don't go dark.
 With database migrations and local development it is important to remember to push and pull changes from central source control frequently to keep other developers aware of the changes you're making and better avoid conflicts.
+
+### RoundhousE Metadata
+
+When RoundhousE runs it will update it's metadata tables.
+These tables live on each individual instance and represent what version of database migrations have been run on the server and any errors that have occured during migrations.
+If a database instance doesn't have these tables RoundhousE will automatically add them.
+The tables are:
+
+- `RoundhousE.Version`
+    - This table contains the central repository path to get changes from, the version of the database that was run against the database (we use the mecurial node hash), and the date it was applied.
+    - If the version ends with a `+` then there were uncommitted changes applied during the RoundhousE migration run.  This is ok on a developer's `localhost`, but should not happen on `dev`, `test`, or `prod`.
+- `RoundhousE.ScriptsRun`
+    - It uses referential integrity back to the version that ran it.
+    - This contains a list of the scripts that RoundhousE has run and when it ran the script.
+    - It contains the definition of the script that was run, and the hash of the script.  If RoundhousE will check hash a script before running it to see if it has already run (if it has it skips it).
+    - If RoundhousE encounters an `up` script with the same file name as one that it has previously run, but the definition is different it will fail the migration.
+- `RoundhousE.ScriptsRunErrors`
+    - This table doesn't use referintial integrity back to the version table due to it needing to log errors that could happen in a transaction.
+    - If a migration fails it will be logged here.
+
+These tables shouldn't be updated outside of what RoundhousE does.
 
 ***
 
