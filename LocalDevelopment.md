@@ -346,12 +346,12 @@ With database migrations and local development it is important to remember to pu
 ### RoundhousE Metadata
 
 When RoundhousE runs it will update it's metadata tables.
-These tables live on each individual instance and represent what version of database migrations have been run on the server and any errors that have occured during migrations.
+These tables live on each individual instance and represent what version of database migrations have been run on the server and any errors that have occurred during migrations.
 If a database instance doesn't have these tables RoundhousE will automatically add them.
 The tables are:
 
 - `RoundhousE.Version`
-    - This table contains the central repository path to get changes from, the version of the database that was run against the database (we use the mecurial node hash), and the date it was applied.
+    - This table contains the central repository path to get changes from, the version of the database that was run against the database (we use the mercurial node hash), and the date it was applied.
     - If the version ends with a `+` then there were uncommitted changes applied during the RoundhousE migration run.  This is ok on a developer's `localhost`, but should not happen on `dev`, `test`, or `prod`.
 - `RoundhousE.ScriptsRun`
     - It uses referential integrity back to the version that ran it.
@@ -359,7 +359,7 @@ The tables are:
     - It contains the definition of the script that was run, and the hash of the script.  If RoundhousE will check hash a script before running it to see if it has already run (if it has it skips it).
     - If RoundhousE encounters an `up` script with the same file name as one that it has previously run, but the definition is different it will fail the migration.
 - `RoundhousE.ScriptsRunErrors`
-    - This table doesn't use referintial integrity back to the version table due to it needing to log errors that could happen in a transaction.
+    - This table doesn't use referential integrity back to the version table due to it needing to log errors that could happen in a transaction.
     - If a migration fails it will be logged here.
 
 These tables shouldn't be updated outside of what RoundhousE does.
