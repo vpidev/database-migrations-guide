@@ -39,7 +39,7 @@ C:\Source\sqldb\
 ```
 
 We also need to get the trimmed database backup so we have data to develop against.
-Database backups are located in the [TODO: Backup Location].
+Database backups are located in the [IT Software Folder](\\vpinc.net\drives\UserDrive\IT\Software\DevelopmentDatabaseBackup).
 The backups we need will be
 
 - [ENTERPRISE_Backup.bak]()
@@ -166,7 +166,7 @@ We are now ready to run the migration script.  Due to how RoundhousE is designed
 This means we know our migration will run the `CREATE TABLE` and `CREATE PROCEDURE` before running the `ALTER PROCEDURE`.
 
 To run RoundhousE we need to run the `LOCAL.DBDeployment.bat` file located in the root of the folder.
-We can do this one of three ways.
+We can do this one of two ways.
 
 - Run from Windows Explorer
     1. Open the migration folder in Windows Explorer
@@ -176,20 +176,20 @@ We can do this one of three ways.
     2. Double click the `.bat` file to run RoundhousE.
 
 - Configure `.bat` files to start from within Visual Studio (one time configuration).
-    1. Right Click the `LOCAL.DBDeployment.bat` file and select `Open With...`
-    2. In the `Open With` dialog hit the `Add..` button.
-    3. In the `Add Program` dialog set these values:   
-        - Program: `explorer.exe`
-        - Friendly name: `Windows Explorer`
-    4. Hit `OK` button.
-    5. Make sure `Windows Explorer` is selected and hit `Set as Default` button.
-    6. Hit the `OK` button.
-    7. Now in the future if you want to run a migration you can just double click the `.bat` file from within Visual Studio's Solution Explorer to run it.
-
-- Configure `.bat` files to start in PowerShell from within Visual Studio (one time configuration).
     1. Open a PowerShell console
     2. Type `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` and hit enter.
-    3. Go back to Visual Studio and follow the steps for #2 from above replacing the program with `PowerShell.exe`
+    3. Go back to Visual Studio and Right Click the `LOCAL.DBDeployment.bat` file and select `Open With...`
+    4. In the `Open With` dialog hit the `Add..` button.
+    5. In the `Add Program` dialog set these values:   
+        - Program: `PowerShell.exe`
+        - Friendly name: `PowerShell`
+    6. Hit `OK` button.
+    7. Make sure `PowerShell` is selected and hit `Set as Default` button.
+    8. Hit the `OK` button.
+    9. Now in the future if you want to run a migration you can just double click the `.bat` file from within Visual Studio's Solution Explorer to run it.
+
+- Configure `.bat` files to start in PowerShell from within Visual Studio (one time configuration).
+    
 
 Now that RoundhousE has run against our local without error we can commit the migration to the repository and push our changes to Kiln.
 Our commit message will look like:
