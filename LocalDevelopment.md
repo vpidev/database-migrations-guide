@@ -21,6 +21,7 @@ These are some of the main benefits that made Visual Studio the tool of choice:
 
 ### Getting Started
 
+#### Get the database migration repositories
 Before we begin we need to have need to have the database migration project.
 Clone the database migration from the central repository in [Kiln](https://vpidev.kilnhg.com/Code/Repositories#groupsqldb) to your local machine in `C:\Source\sqldb\<database_migrations>`.
 The main repositories are:
@@ -38,23 +39,51 @@ C:\Source\sqldb\
                 LABELS_Migrations\
 ```
 
+#### Restore the database to you local machine
+
 We also need to get the trimmed database backup so we have data to develop against.
-Database backups are located in the [IT Software Folder](\\vpinc.net\drives\UserDrive\IT\Software\DevelopmentDatabaseBackup).
+Database backups are located in the IT Software Folder: `\\vpinc.net\drives\UserDrive\IT\Software\DevelopmentDatabaseBackup`.
 The backups we need will be
 
-- [ENTERPRISE_Backup.bak]()
-- [VFP_Backup.bak]()
-- [LABELS_Backup.bak]()
+- `ENTERPRISE_Backup.bak`
+- `VFP_Backup.bak`
+- `LABELS_Backup.bak`
 
 Copy that to your local machine into your temp folder: `C:\Temp\`
 
-Restore the database to you local machine.
-[TODO: Write restore process]
+Open Visual Studio 2015.  Open the SQL Server Object Explorer from the View Menu: `View > SQL Server Object Explorer`.
+
+![SQL Server Object Explorer](Images/LocalDevelopment_0.png)
+
+Click the `Add SQL Server` button to launch the `Connect` dialog.
+
+Set `Server Name` to `localhost` and `Database Name` to `master`.  Then hit the `Connect` button.
+
+Make sure the `localhost` connection is selected in SQL Server Object Explorer then hit the `New Query` button.
+
+Paste this script into the new document (but don't run yet):
+
+```sql
+ALTER DATABASE [<DatabaseName>] SET SINGLE_USER WITH ROLLBACK AFTER 5
+PRINT 'Restoring: <DatabaseName> Database'
+RESTORE DATABASE [<DatabaseName>] FROM DISK = N'<DatabaseBackupPath>' WITH FILE = 1, NOUNLOAD, REPLACE, STATS = 10
+ALTER DATABASE [<DatabaseName>] SET MULTI_USER
+```
+
+Change `<DatabaseName>` to whatever your database name is.  For the current example we will change it to: `ENTERPRISE`.
+
+Then change the `<DatabaseBackupPath>` to the path we copied the backups to and then name of the backup.  For the current example we will change it to: `C:\Temp\ENTERPRISE_2016-08-19_fbb40d232d00.bak`.
+
+The script we can now run will look like this:
+
+![Restore Enterprise Script](Images/LocalDevelopment_5.png)
+
+Click the green `Execute` button to restore your local database.
 
 Once the these databases are restored we can run the migrations to bring them up to be inline with the central repository.
 To do this just run the `Local.DBDeployment.bat` file located in each of the migrations folders.
 
-Our local machine is now matches the state of central repository.
+Our local machine now matches the state of central repository.  We are ready to develop our own database migrations.
 
 ### Developing a migration
 
@@ -179,7 +208,7 @@ We can do this one of two ways.
     1. Open a PowerShell console
     2. Type `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` and hit enter.
     3. Go back to Visual Studio and Right Click the `LOCAL.DBDeployment.bat` file and select `Open With...`
-    4. In the `Open With` dialog hit the `Add..` button.
+    4. In the `Open With` dialog hit the `Add...` button.
     5. In the `Add Program` dialog set these values:   
         - Program: `PowerShell.exe`
         - Friendly name: `PowerShell`
