@@ -217,8 +217,6 @@ We can do this one of two ways.
     8. Hit the `OK` button.
     9. Now in the future if you want to run a migration you can just double click the `.bat` file from within Visual Studio's Solution Explorer to run it.
 
-- Configure `.bat` files to start in PowerShell from within Visual Studio (one time configuration).
-    
 We are almost ready to commit and push our changes, but before we do we should once again check by doing a pull and make changes as necessary to our work to work with any new changes.
 Unnecessary branching should be avoided.
 
