@@ -4,7 +4,7 @@ It is important to exercise care when applying migrations to the environment ser
 
 Do not permit the migration script for an older version to run after a more recent version has been applied.
 
-Using an automation server will minimize the possibility of this occurring.
+Using an automation server can help minimize the possibility of this occurring by being a central authority on the triggering and applying of migrations to the dev, test and prod database instances.
 
 Once the automation server is in place, moving the database version forward will be similar to how we communicate the release version of our web applications: by moving the Mercurial bookmark forward.
 
@@ -14,23 +14,12 @@ With the bookmark moved to the desired changeset, the automation server (Jenkins
 
 ## Specifics on RoundhousE tool operation inside of Jenkins
 
-The Database Migration Automation will use an "Execute Windows batch command" Build Task. The command is specified in a text box in Jenkins and will contain much of the same operations as the LOCAL.DBDeploy.bat file does:
-
-```cmd
-hg id -i > version.txt
-
-SET version.file="version.txt"
-SET environment="DEV"
-SET connection.string="Server=ServerName;Database=DatabaseName;Trusted_Connection=True;"
-SET repository.path="https://vpidev.kilnhg.com/Code/sqldb/DatabaseName_Migrations"
-
-"D:\rh.exe" /cs=%connection.string% /vf=%version.file% /r=%repository.path% /env=%environment% /silent /transaction /disableoutput
-```
+The Database Migration Automation will use an "Execute Windows batch command" Build Task. The command is specified in Jenkins and will work much in the way the LOCAL.DBDeployment.bat script does.
 
 Items worth noting:
 
 1. The RoundhousE exe (`rh.exe`) has been placed in the root of the Jenkins' server's D: drive, making it unnecessary to add it to the path as long as the command specified contains the full path.
-2. As will be done in the LOCAL.DBDeploy.bat script, the Mercurial command line program is called supplying the revision id (the hash) as a text file for the migrator to use.
+2. As will be done in the LOCAL.DBDeploy.bat script, the Mercurial command line program is called supplying the revision id (the hash) as a value for the migrator to use.
 3. the environment value supplied to RoundhousE is optional at this point the docs state: "This allows RH to be environment aware and only run scripts that are in a particular environment based on the naming of the script. **LOCAL**.something.**ENV**.sql would only be run in the `LOCAL` environment. Defaults to `LOCAL`" --- not sure if we want to use this or supply this right away...
 4. All the migrations run by Jenkins need to be done with the `/transaction` switch, this insures that the `RoundhousE.Version` table contains only successfully applied entries.
 5. `/disableoutput` from the docs: "Disable output of backups, items ran, permissions dumps, etc. Log files are kept. Useful for example in CI environment."
