@@ -219,8 +219,11 @@ We can do this one of two ways.
 
 - Configure `.bat` files to start in PowerShell from within Visual Studio (one time configuration).
     
+We are almost ready to commit and push our changes, but before we do we should once again check by doing a pull and make changes as necessary to our work to work with any new changes.
+Unnecessary branching should be avoided.
 
 Now that RoundhousE has run against our local without error we can commit the migration to the repository and push our changes to Kiln.
+
 Our commit message will look like:
 
 ```
@@ -351,7 +354,7 @@ Case 0000 - Removed the SaM.Product_SKU_Detail_Type table
 
 This means that if another developer pulls the repo and runs the migrations they will only have to step forward through migrations running the `create` and subsequently running the `drop`.
 Roundhouse doesn't have the ability to do down scripts.
-It is possible to change the database to a previous verison by restoring from a backup and then setting the mecurial node to the version that your targeting then running RoundhousE.
+It is possible to change the database to a previous version by restoring from a backup and then setting the mecurial node to the version that your targeting then running RoundhousE.
 
 ### What constitutes a migration?
 
