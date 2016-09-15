@@ -4,7 +4,7 @@ It is important to exercise care when applying migrations to the environment ser
 
 Do not permit the migration script for an older version to run after a more recent version has been applied.
 
-Using an automation server will minimize the possibility of this occurring.
+Using an automation server can help minimize the possibility of this occurring by being a central authority on the triggering and applying of migrations to the dev, test and prod database instances.
 
 Once the automation server is in place, moving the database version forward will be similar to how we communicate the release version of our web applications: by moving the Mercurial bookmark forward.
 
