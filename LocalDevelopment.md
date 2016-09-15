@@ -379,7 +379,7 @@ With database migrations and local development it is important to remember to pu
 ### RoundhousE Metadata
 
 When RoundhousE runs it will update it's metadata tables.
-These tables live on each individual instance and represent what version of database migrations have been run on the server and any errors that have occurred during migrations.
+These tables live on each individual database and represent what version of database migrations have been run on the server and any errors that have occurred during migrations.
 If a database instance doesn't have these tables RoundhousE will automatically add them.
 The tables are:
 
