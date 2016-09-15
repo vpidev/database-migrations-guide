@@ -350,7 +350,8 @@ Case 0000 - Removed the SaM.Product_SKU_Detail_Type table
 ```
 
 This means that if another developer pulls the repo and runs the migrations they will only have to step forward through migrations running the `create` and subsequently running the `drop`.
-While RoundhousE has the potential to do reversible migrations it requires more work on the developers part and since they should be infrequent it is easier to do forward-only-development. 
+Roundhouse doesn't have the ability to do down scripts.
+It is possible to change the database to a previous verison by restoring from a backup and then setting the mecurial node to the version that your targeting then running RoundhousE.
 
 ### What constitutes a migration?
 
