@@ -42,6 +42,7 @@ C:\Source\sqldb\
 #### Restore the database to you local machine
 
 We also need to get the trimmed database backup so we have data to develop against.
+These are snapshots of our databases from a point in time, they provide a starting point of our databases so not all changes need to be reapplied after a restore.
 Database backups are located in the IT Software Folder: `\\vpinc.net\drives\UserDrive\IT\Software\DevelopmentDatabaseBackup`.
 The backups we need will be
 
@@ -160,7 +161,9 @@ END
 
 This script will create the table and an empty sproc for us to work with for this migration.
 
-We still need to create the real definition of the sproc.  Altering a sproc can happen any number of times so it does not belong in the `up` folder.  We will instead put it in the `sprocs` folder.
+It is worth noting that the there is a `GO` statement in this `up` script.  The reason is that some create statement need to be in their own batch when executed.  See [Batch Statements](#batch-statements) for more details.
+
+We will save this script, but we still need to create the real definition of the sproc.  Altering a sproc can happen any number of times so it does not belong in the `up` folder.  We will instead put it in the `sprocs` folder.
 
 Expand the `sprocs` folder in the Solution Explorer and right click on the `SaM` folder to add a new text document like we previously did for the `up` script.
 Name this script `SaM.Product_SKU_Detail_List.sql`.
@@ -190,8 +193,7 @@ BEGIN
 
 END
 ```
-
-We are now ready to run the migration script.  Due to how RoundhousE is designed it will first run the scripts in the `up` folder that it hasn't run before and then run the scripts in the `sprocs` folder.
+After we save it we are ready to run the migration script.  Due to how RoundhousE is designed it will first run the scripts in the `up` folder that it hasn't run before and then run the scripts in the `sprocs` folder.
 This means we know our migration will run the `CREATE TABLE` and `CREATE PROCEDURE` before running the `ALTER PROCEDURE`.
 
 To run RoundhousE we need to run the `LOCAL.DBDeployment.bat` file located in the root of the folder.
@@ -220,7 +222,8 @@ We can do this one of two ways.
 We are almost ready to commit and push our changes, but before we do we should once again check by doing a pull and make changes as necessary to our work to work with any new changes.
 Unnecessary branching should be avoided.
 
-Now that RoundhousE has run against our local without error we can commit the migration to the repository and push our changes to Kiln.
+Now that RoundhousE has run against our local without error we can test the changes we made and see if everything is in order.
+Once tested we can commit the migration to the repository and push our changes to Kiln.
 
 Our commit message will look like:
 
@@ -358,10 +361,10 @@ It is possible to change the database to a previous version by restoring from a 
 
 Any database changes should be done in a migration, but not all changes should be done together.
 
-Monolithic database migrations are an anti-pattern in database migrations as they provide greater potential for a given migration to fail.
+Monolithic database migrations are an anti-pattern as they provide greater potential for a given migration to fail.
 Like application commits generally smaller is better.
 
-In the example in [Development Workflow](#development-workflow) Part 1 you were going to add another page to your application and that page needed a different table to read from.
+If in the example in [Development Workflow](#development-workflow) Part 1 you were going to add another page to your application and that page needed a different table to read from.
 You might be tempted to roll all those changes into a single migration.
 **THIS IS WRONG!** Migrations should be a single chunk of work.
 If those tables and related sprocs can function independently from the others then they should be part of their own migration.
@@ -394,6 +397,64 @@ The tables are:
     - If a migration fails it will be logged here.
 
 These tables shouldn't be updated outside of what RoundhousE does.
+
+### Batch Statements
+
+Developers might need to make `up` scripts might include multiple statements.
+It is important to know how these statements behave together when run in a single script.
+Some statements need to be executed by themselves.
+This doesn't mean that they need their own `up` script though.  
+`GO` is the default batch statement separator and signals the server to treat each statement before and after as individual batches.
+
+So the statement:
+
+```sql
+CREATE TABLE dbo.Test_Table (
+    id int identity(1,1)
+)
+
+CREATE PROCEDURE dbo.Test_Table_List
+AS
+BEGIN
+SET NOCOUNT ON;
+END
+```
+
+Will be treated as a single statement/batch.
+However the it will fail because `CREATE PROCEDURE` statements need to be in the only thing in their batch.
+To fix this we can separate them with a `GO` statement.
+
+```sql
+CREATE TABLE dbo.Test_Table (
+    id int identity(1,1)
+)
+
+GO
+
+CREATE PROCEDURE dbo.Test_Table_List
+AS
+BEGIN
+SET NOCOUNT ON;
+END
+```
+
+Now the server will receive two separate statements and can execute both of them correctly by themselves.
+
+It is worth noting that `GO` statments should always be on their own line.
+
+There are other places that statements need to be their own batch:
+
+- `CREATE DEFAULT` statements
+- `CREATE FUNCTION` statements
+- `CREATE PROCEDURE` statements
+- `CREATE RULE` statements
+- `CREATE SCHEMA` statements
+- `CREATE TRIGGER` statements
+- `CREATE VIEW` statements
+- Altering a table and referencing the new column(s)
+- Dropping a constraint and then updating values in columns referenced in the constraint.
+
+See [Microsoft's Documentation](https://technet.microsoft.com/en-us/library/ms175502(v=sql.105).aspx#Anchor_0) on batches for more info.
 
 ***
 

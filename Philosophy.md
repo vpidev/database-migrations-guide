@@ -25,14 +25,23 @@ The idea behind implementing a migrations-based approach is to formalize and mak
 With a migrations-based approach to making database changes, all changes are made in a prescribed sequence.
 
 The changes are recorded and annotated by using an existing source control solution (in our case, Mercurial), placing the migration scripts into source control allows for: 
-    
-- Recording who made a change.
+
+- Recording who made a change
 - Recording what was changed
-- Attaching a global version id to the change (in our case, the Mercurial node hash).
+- Attaching a global version id to the change (in our case, the Mercurial node hash)
+- Incremental development
+- Tying application and database states
+- Reliable and efficient deploy
+- Better concurrent development
+- Code reviews
+- Keeps track of all files needed for changes better than by hand
 
 Changes made to the DDL (data definition language) or DML (data manipulation language) of a given database are written to a list of immutable text files, by design, only to be run once.
 
 Once changes are made, version metadata is updated to record what changes were run, and what version the database schema is at.
+
+Using a local instance to prepare database changes gives the developer a sandbox to work on changes and get them perfected before making them available to other developers.
+A Local sandbox is the same way our application development works. 
 
 ## Put into practice 
 
