@@ -456,6 +456,30 @@ There are other places that statements need to be their own batch:
 
 See [Microsoft's Documentation](https://technet.microsoft.com/en-us/library/ms175502(v=sql.105).aspx#Anchor_0) on batches for more info.
 
+### Templates
+
+#### Sprocs
+
+Making sprocs is a common task for database development, so I've made a template to make it a little bit easier follow these steps for installation and usage.
+
+1. Copy the `Sproc` folder from this directory into your local `C:\Users\<username>\Documents\Visual Studio 2015\Templates\ItemTemplates\Visual C#`
+2. Open the folder and open `Schema.Sproc.sql` file
+3. Replace `Mark Peterson` with your name.
+4. Save the file.
+5. Close any instances of Visual Studio and reopen Visual Studio 2015.
+6. Open a migration project.
+7. Click on a schema folder in the `sprocs` folder and select `Add > Add New Item...`
+8. Select `Sproc` from the list and name to be the correct filename.
+
+    ![Add New Item Dialog](Images/sproc1.png)
+
+9. Click `Add`
+10. Now you should have a sproc with the skeleton filled out and ready to go as a `.sql` file and with a `UTF-8 BOM`.
+
+    ![Skeleton File](Images/sproc2.png)
+    
+11. Fill the sproc definition out and you're done.
+
 ***
 
 [Back to table of contents](README.md)

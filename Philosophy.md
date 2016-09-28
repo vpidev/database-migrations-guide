@@ -41,7 +41,7 @@ Changes made to the DDL (data definition language) or DML (data manipulation lan
 Once changes are made, version metadata is updated to record what changes were run, and what version the database schema is at.
 
 Using a local instance to prepare database changes gives the developer a sandbox to work on changes and get them perfected before making them available to other developers.
-A Local sandbox is the same way our application development works. 
+A local sandbox is the same way our application development works. 
 
 ## Put into practice 
 
