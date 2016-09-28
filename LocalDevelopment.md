@@ -27,8 +27,10 @@ Clone the database migration from the central repository in [Kiln](https://vpide
 The main repositories are:
 
 - [ENTERPRISE_Migrations](https://vpidev.kilnhg.com/Code/Repositories/sqldb/ENTERPRISE_Migrations)
-- [VFP_Migrations](https://vpidev.kilnhg.com/Code/Repositories/sqldb/VFP_Migrations)
 - [LABELS_Migrations](https://vpidev.kilnhg.com/Code/Repositories/sqldb/LABELS_Migrations)
+- [Reporting_Migrations](https://vpidev.kilnhg.com/Code/Repositories/sqldb/Reporting_Migrations)
+- [VFP_Migrations](https://vpidev.kilnhg.com/Code/Repositories/sqldb/VFP_Migrations)
+- [VogelDataWarehouse_Migrations](https://vpidev.kilnhg.com/Code/Repositories/sqldb/VogelDataWarehouse_Migrations)
 
 Once you have them cloned your `C:\Source\sqldb\` folder should look like:
 
