@@ -464,18 +464,18 @@ See [Microsoft's Documentation](https://technet.microsoft.com/en-us/library/ms17
 
 Making sprocs is a common task for database development, so I've made a template to make it a little bit easier follow these steps for installation and usage.
 
-1. Copy the `Sproc` folder from this directory into your local `C:\Users\<username>\Documents\Visual Studio 2015\Templates\ItemTemplates\Visual C#`
+1. Copy the `Sproc` folder from `\\vpinc.net\drives\UserDrive\IT\Software\Development_Tools\Visual Studio Templates\Stored Procedure` directory into your local `C:\Users\<username>\Documents\Visual Studio 2015\Templates\ItemTemplates\Visual C#` directory.
 2. Open the folder and open `Schema.Sproc.sql` file
 3. Replace `Mark Peterson` with your name.
 4. Save the file.
 5. Close any instances of Visual Studio and reopen Visual Studio 2015.
 6. Open a migration project.
-7. Click on a schema folder in the `sprocs` folder and select `Add > Add New Item...`
+7. Click on a schema folder in the `sprocs` folder and select `Add > Add New Item...`.
 8. Select `Sproc` from the list and name to be the correct filename.
 
     ![Add New Item Dialog](Images/sproc1.png)
 
-9. Click `Add`
+9. Click `Add`.
 10. Now you should have a sproc with the skeleton filled out and ready to go as a `.sql` file and with a `UTF-8 BOM`.
 
     ![Skeleton File](Images/sproc2.png)
